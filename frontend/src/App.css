@@ -1,0 +1,58 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  background-color: #397eaf !important;
+}
+
+.contents{
+  font-size: 17px;
+  letter-spacing: 1px;
+  text-align: justify;
+}
+
+.banner-contents{
+  width: 50%;
+  position: absolute;
+  top: 35vh;
+  left: 19vw;
+}
+
+.books{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.book{
+  margin: 15px;
+
+}
+
+
+.profile .btn{
+  width: 50% !important;
+  margin: 1rem;
+}
+
+.links{
+  width: 100% !important;
+  text-decoration: none;
+  color: white;
+  display: block;
+}
+
+.links:hover{
+  color: white;
+}
+
+.center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 90vh;
+}
