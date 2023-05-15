@@ -1,27 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Book from './Book';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllBooks } from '../actions/bookAction';
+import { loadUser } from '../actions/userAction';
 
 const Home = () => {
-    const arr = [
-        {
-            id: 0,
-            name: "book1", 
-            img: "https://img.freepik.com/premium-photo/educational-concept-books-blue_387680-275.jpg",
-            details: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quasi cupiditate dolorum harum quae deleniti voluptas numquam, sunt modi quibusdam, illum sequi dolore"
-        },
-        {
-            id: 1,
-            name: "book2", 
-            img: "https://img.freepik.com/premium-photo/educational-concept-books-blue_387680-275.jpg",
-            details: "ectetur, adipisicing elit. Quasi cuore"
-        },
-        {
-            id: 2,
-            name: "book3", 
-            img: "https://img.freepik.com/premium-photo/educational-concept-books-blue_387680-275.jpg",
-            details: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quasi, illum sequi dolore"
-        },
-    ]
+
+    const dispatch = useDispatch();
+    const {books} = useSelector(state=>state.book);
+
+    useEffect(()=>{
+        dispatch(loadUser());
+        dispatch(getAllBooks());
+    }, [])
+    
   return (
     <div className='home'>
         <div className="banner">
@@ -35,8 +27,8 @@ const Home = () => {
         </div>
         <div className="books">
             {
-                arr.map((item)=>(
-                    <Book key={item.id} id={item.id} name={item.name} img={item.img} details={item.details} />
+                books && books.map((item)=>(
+                    <Book key={item._id} id={item._id} name={item.title} img={item.image} details={item.details} />
                 ))
             }
         </div>

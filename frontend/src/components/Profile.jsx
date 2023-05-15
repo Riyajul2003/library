@@ -1,9 +1,48 @@
 import { Col, Button, Row, Container, Form } from 'react-bootstrap';
-import {NavLink} from 'react-router-dom'
+import {NavLink, useNavigate} from 'react-router-dom'
+import { deleteProfile, loadUser, logoutUser } from '../actions/userAction';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 
 
 export default function Profile() {
+
+  const {message, user, loading} = useSelector(state=>state.user);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    dispatch(loadUser());
+
+    if(message){
+      alert(message);
+      dispatch({type: "ClearMessages"})
+    }
+  }, [message])
+
+  const handleLogout = async(e)=>{
+    await dispatch(logoutUser());
+
+    dispatch(loadUser());
+  }
+
+  const handleDelete = async(e)=>{
+    const flg = window.confirm("Are you sure ?");
+    if(flg){
+      await dispatch(deleteProfile());
+    }
+  }
+
+  useEffect(()=>{
+    if(message){
+      alert(message);
+      dispatch({type: "ClearMessages"});
+      navigate("/login");
+    }
+  }, [message])
+
   return ( 
   
   <Container>
@@ -18,24 +57,24 @@ export default function Profile() {
                 <Form>
                   <Form.Group className="mb-3" controlId="Name">
                     <Form.Label className="text-center">Name</Form.Label>
-                    <Form.Control type="text" placeholder="Enter Name"  readOnly/>
+                    <Form.Control type="text" defaultValue={user?.name} placeholder="Enter Name"  readOnly/>
                   </Form.Group>
 
                   <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label className="text-center">
                       Email address
                     </Form.Label>
-                    <Form.Control type="email" placeholder="Enter email"  readOnly/>
+                    <Form.Control type="email" defaultValue={user?.email} placeholder="Enter email"  readOnly/>
                   </Form.Group>
 
                   <Form.Group className="mb-3" controlId="mobile">
                     <Form.Label className="text-center">Mobile</Form.Label>
-                    <Form.Control type="number" placeholder="Enter Mobile"  readOnly/>
+                    <Form.Control type="number" defaultValue={user?.phone} placeholder="Enter Mobile"  readOnly/>
                   </Form.Group>
 
                   <Form.Group className="mb-3" controlId="formBasicgender">
                   <Form.Label className='text-center'>Gender</Form.Label>
-                  <Form.Control type='text' placeholder='Male/Female' readOnly/>
+                  <Form.Control type='text' defaultValue={user?.gender} placeholder='Male/Female' readOnly/>
                   </Form.Group>
                 </Form>
                
@@ -55,13 +94,17 @@ export default function Profile() {
                       Borrowed Books
                     </NavLink>
                   </Button>{' '}
+                {
+                  user?.role === "admin" ? 
                 <Button variant="info">
                   <NavLink to="/new" className={"links"}>
                       New Book
                   </NavLink>
-                </Button>{' '} 
-                <Button variant="warning">Log out</Button>{' '} 
-                <Button variant="danger">Delete Account</Button>{' '}
+                </Button> : null
+                }
+
+                <Button onClick={handleLogout} variant="warning">Log out</Button>{' '} 
+                <Button onClick={handleDelete} variant="danger">Delete Account</Button>{' '}
               </div>
             </div>
       </Col>

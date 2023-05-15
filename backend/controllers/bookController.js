@@ -10,7 +10,7 @@ export const addABook = async(req, res)=>{
 
         res.status(201).json({
             success: true,
-            book
+            message: "Book Added !",
         })
         
     } catch (error) {
@@ -105,6 +105,29 @@ export const borrowOrReturnABook = async(req, res)=>{
         await user.save();
 
         handleSuccess(res, 200, message);
+        
+    } catch (error) {
+        handleError(res, 500, error.message);       
+    }
+}
+
+
+//get borrowed books
+export const getBorrowedBooks = async(req, res)=>{
+    try {
+
+        const user = req.user;
+        const books = [];
+
+        for(let i = 0; i< user.borrowedBooks.length; i++){
+            const book = await Book.findById(user.borrowedBooks[i]);
+            books.push(book);
+        }
+
+        res.status(201).json({
+            success: true,
+            books
+        })
         
     } catch (error) {
         handleError(res, 500, error.message);       

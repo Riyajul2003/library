@@ -30,7 +30,7 @@ body{
 
 .book{
   margin: 15px;
-
+  width: 17rem;
 }
 
 
@@ -55,4 +55,26 @@ body{
   align-items: center;
   justify-content: center;
   min-height: 90vh;
+}
+
+
+.bookcard{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  padding: 15px;
+  margin-top: 80px;
+}
+
+.book-details{
+  width: 40%;
+}
+.img1{
+  width: 600px;
+  padding: 6px;
+  display: flex;
+  align-items: stretch;
+  align-content: stretch;
+  position: relative;
 }

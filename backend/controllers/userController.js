@@ -6,13 +6,13 @@ import User from '../models/userSchema.js';
 export const register = async(req, res)=>{
     try {
 
-        const {name, email, phone, password} = req.body;
+        const {name, email, phone, gender, password} = req.body;
 
         let user = await User.findOne({email});
 
         if(user) return res.status(400).json({success: false, error: "Email in use !"})
 
-        user = await User.create({name, email, phone, password})
+        user = await User.create({name, email, phone, gender, password})
 
         res.status(201).json({
             success: true,
@@ -74,6 +74,26 @@ export const profile = async(req, res)=>{
         handleError(res);       
     }
 }
+
+//loutguot
+export const logoutUser = async(req, res)=>{
+    try {
+
+        let options = {
+            expires: new Date(Date.now()),
+            httpOnly: true
+        }
+
+        res.status(200).cookie("jwt", null, options).json({
+            success: true,
+            message: "logout !"
+        })
+        
+    } catch (error) {
+        handleError(res);       
+    }
+}
+
 
 //update profile
 export const updateProfile = async(req, res)=>{

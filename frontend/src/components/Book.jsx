@@ -2,10 +2,10 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { NavLink } from 'react-router-dom';
 
-function BasicExample({id, name, img}) {
+function Book({id, name, img}) {
   return (
-    <Card className='book text-center' style={{ width: '18rem' }}>
-      <Card.Img variant="top" src={img} />
+    <Card className='book text-center'>
+      <Card.Img variant="top" src={img} style={{height : "13rem"}} />
       <Card.Body>
         <Card.Title>{name}</Card.Title>
         <NavLink to={`/book/${id}`}>
@@ -16,4 +16,4 @@ function BasicExample({id, name, img}) {
   );
 }
 
-export default BasicExample;
+export default Book;

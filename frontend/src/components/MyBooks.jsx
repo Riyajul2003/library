@@ -1,33 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Book from './Book';
+import { useDispatch, useSelector } from 'react-redux';
+import { getBorrowBook } from '../actions/bookAction';
 
 const MyBooks = () => {
-    const arr = [
-        {
-            id: 0,
-            name: "book1", 
-            img: "https://img.freepik.com/premium-photo/educational-concept-books-blue_387680-275.jpg",
-            details: "dolorum harum quae deleniti voluptas numquam, sunt modi quibusdam, illum sequi dolore"
-        },
-        {
-            id: 1,
-            name: "book2", 
-            img: "https://img.freepik.com/premium-photo/educational-concept-books-blue_387680-275.jpg",
-            details: "ectetur, adipisicing elit. Quasi cuorljfffffffffffffff jjjjjjjjjjjjjjjj addas  dafja e"
-        },
-        {
-            id: 2,
-            name: "book3", 
-            img: "https://img.freepik.com/premium-photo/educational-concept-books-blue_387680-275.jpg",
-            details: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quasi, illum sequi dolore"
-        },
-        {
-            id: 3,
-            name: "book4", 
-            img: "https://img.freepik.com/premium-photo/educational-concept-books-blue_387680-275.jpg",
-            details: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quasi, illum sequi dolore"
-        },
-    ]
+    const {borrowed} = useSelector(state=>state.book);
+    const dispatch = useDispatch();
+
+    useEffect(()=>{
+        dispatch(getBorrowBook());
+    }, [])
+
   return (
     <div className='home'>
         <br />
@@ -35,8 +18,8 @@ const MyBooks = () => {
         <br />
         <div className="books">
             {
-                arr.map((item)=>(
-                    <Book key={item.id} name={item.name} img={item.img} details={item.details} />
+                borrowed && borrowed.map((item)=>(
+                    <Book key={item._id} id={item._id} name={item.title} img={item.image} details={item.details} />
                 ))
             }
         </div>

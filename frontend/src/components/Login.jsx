@@ -1,8 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
-import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink, useNavigate } from "react-router-dom";
+import { loginUser } from '../actions/userAction';
+import { toast } from 'react-toastify';
 
 export default function Registration() {
+  const {message, loading} = useSelector(state=>state.user);
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+  const [user, setUser] = useState({
+    email: "", password: ""
+  })
+
+  let name, value;
+
+  const handleInputs = (e)=>{
+    name = e.target.name;
+    value = e.target.value;
+
+    setUser({...user, [name]:value});
+  }
+
+  const handleLogin = async(e)=>{
+    e.preventDefault();
+
+   await dispatch(loginUser(user.email, user.password));
+  }
+
+  useEffect(()=>{
+    if(message){
+      alert(message);
+      dispatch({type: "ClearMessages"});
+      navigate("/");
+    }
+  }, [message])
+
   return (
     <div>
       <Container>
@@ -15,12 +49,12 @@ export default function Registration() {
                     Login page
                   </h2>
                   <div className="mb-3">
-                    <Form>
+                    <Form onSubmit={handleLogin}>
                       <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label className="text-center">
                           Email address
                         </Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" />
+                        <Form.Control  value={user.email} onChange={handleInputs} name="email" type="email" placeholder="Enter email" />
                       </Form.Group>
 
                       <Form.Group
@@ -28,21 +62,10 @@ export default function Registration() {
                         controlId="formBasicPassword"
                       >
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" />
+                        <Form.Control value={user.password} onChange={handleInputs} name="password"  type="password" placeholder="Password" />
                       </Form.Group>
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formBasicPassword"
-                      >
-                        <Form.Label>Confirm Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" />
-                      </Form.Group>
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formBasicCheckbox"
-                      ></Form.Group>
                       <div className="d-grid">
-                        <Button variant="primary" type="submit">
+                        <Button disabled={loading} variant="primary" type="submit">
                           Submit
                         </Button>
                       </div>

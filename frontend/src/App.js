@@ -9,9 +9,17 @@ import Profile from "./components/Profile";
 import NewBook from './components/NewBook';
 import MyBooks from './components/MyBooks';
 import BookDetails from './components/BookDetails';
-import viewbook from './components/viewbook';
+import Viewbook from './components/Viewbook';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { loadUser } from './actions/userAction';
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(()=>{
+dispatch(loadUser());
+  }, []
+  )
   return (
     <>
     <Header/>
@@ -24,9 +32,10 @@ function App() {
         <Route path='/new' element={<NewBook/>} />
         <Route path='/books' element={<MyBooks/>} />
         <Route path='/book/:id' element={<BookDetails/>} />
-        <Route path='/viewbook' element={<viewbook/>} />
+        <Route path='/viewbook' element={<Viewbook/>} />
 
       </Routes>
+      
     </>
   );
 }
